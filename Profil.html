@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Perusahaan - MMGroup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .company-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            text-align: center;
+        }
+        .modal img {
+            max-width: 90%;
+            max-height: 90vh;
+            margin-top: 5%;
+            border-radius: 10px;
+        }
+        .contact {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .contact a {
+            color: #27ae60;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .contact a:hover {
+            color: #219150;
+        }
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">Profil Perusahaan - MMGroup</div>
+
+    <div class="container">
+        <img src="Gambar/perusahaan.png" alt="Gambar Perusahaan MMGroup" class="company-image" onclick="showModal()">
+
+        <div class="section">
+            <h2>Tentang Kami</h2>
+            <p>MMGroup adalah perusahaan yang sudah mulai ada sejak tahun 2008 dalam hal membangun interior dan penyediaan material bangunan berkualitas tinggi. Dengan pengalaman bertahun-tahun, kami berkomitmen untuk menghadirkan produk terbaik untuk kebutuhan konstruksi dan renovasi.</p>
+        </div>
+
+        <div class="section">
+            <h2>Visi & Misi</h2>
+            <p><strong>Visi:</strong> Menjadi penyedia solusi interior terbaik dengan inovasi dan kualitas tinggi, serta memberikan kepuasan maksimal kepada pelanggan. Selain interior, kami juga menyediakan bahan bangunan berkualitas sebagai pendukung utama dalam proyek konstruksi. </p>
+            <p><strong>Misi:</strong> 
+                <ul>
+                    <li>Menyediakan layanan desain dan konstruksi interior yang berkualitas.</li>
+                    <li>Menggunakan bahan berkualitas tinggi untuk hasil terbaik.</li>
+                    <li>Mengutamakan kepuasan pelanggan dengan pelayanan profesional.</li>
+                    <li>Menjadi mitra terpercaya dalam pembangunan dan renovasi interior.</li>
+                    <li>Menyediakan produk berkualitas dengan harga kompetitif.</li>
+                </ul>
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Produk Unggulan</h2>
+            <p>Kami menyediakan berbagai material berkualitas, seperti:</p>
+            <ul>
+                <li>PVC Board Anti Rayap</li>
+                <li>MDF Hijau</li>
+                <li>Triplek</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="contact">
+        <h3>Hubungi Kami</h3>
+        <p>Jika Anda memiliki pertanyaan, jangan ragu untuk menghubungi kami:</p>
+        <p>Email: <a href="mailto:MMGroupIID@gmail.com">mmgroupiid@gmail.com</a></p>
+        <p>WhatsApp: <a href="https://wa.me/+6281370095888">Chat Sekarang</a></p>
+    </div>
+
+    <div class="footer">
+        &copy; 2024 MMGroup - Semua Hak Dilindungi.
+    </div>
+
+    <div class="modal" id="imageModal" onclick="hideModal()">
+        <img src="perusahaan.png" id="modalImage">
+    </div>
+
+    <script>
+        function showModal() {
+            document.getElementById("imageModal").style.display = "block";
+        }
+        function hideModal() {
+            document.getElementById("imageModal").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>

@@ -20,47 +20,85 @@
             font-size: 24px;
         }
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 40px auto;
             padding: 20px;
             text-align: center;
         }
         .products {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
         }
         .product-card {
             background: white;
             padding: 15px;
-            width: 250px;
+            width: 300px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
         }
         .product-card h3 {
             color: #2c3e50;
         }
+        .product-card p {
+            flex-grow: 1;
+        }
         .btn {
             display: inline-block;
-            margin-top: 10px;
             padding: 10px 15px;
             background: #27ae60;
             color: white;
             text-decoration: none;
             border-radius: 5px;
             font-size: 14px;
+            margin-top: auto;
+            cursor: pointer;
         }
         .btn:hover {
             background: #219150;
         }
         footer {
             text-align: center;
-            padding: 10px;
+            padding: 20px;
             background: #2c3e50;
             color: white;
-            margin-top: 30px;
+            margin-top: 50px;
+        }
+        .popup {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: bottom 0.3s ease-in-out;
+        }
+        .popup.show {
+            bottom: 0;
+        }
+        .popup button {
+            margin: 10px;
+            padding: 10px 15px;
+            border: none;
+            background: #27ae60;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .popup button:hover {
+            background: #219150;
         }
     </style>
 </head>
@@ -72,26 +110,48 @@
         <h2>Produk Kami</h2>
         <div class="products">
             <div class="product-card">
-                <h3>Semua Beton</h3>
-                <p>Beton berkualitas tinggi untuk konstruksi bangunan.</p>
-                <a href="#" class="btn">Beli Sekarang</a>
+                <img src="Gambar/PVC.png" alt="PVC Board Anti Rayap">
+                <h3>PVC Board Anti Rayap</h3>
+                <p>Material tahan air dan anti rayap jaminan 100%, ideal untuk furnitur dan dinding interior.</p>
+                <button class="btn" onclick="showPopup('https://id.shp.ee/BH5aNfq')">Beli Sekarang</button>
             </div>
             <div class="product-card">
-                <h3>Batu Bata</h3>
-                <p>Batu bata merah tahan lama untuk dinding rumah.</p>
-                <a href="#" class="btn">Beli Sekarang</a>
+                <img src="Gambar/MDF.png" alt="MDF Hijau">
+                <h3>MDF Hijau</h3>
+                <p>Kayu olahan dengan ketahanan tinggi terhadap kelembapan, cocok untuk berbagai aplikasi interior.</p>
+                <button class="btn" onclick="showPopup('https://id.shp.ee/8jv3eFe')">Beli Sekarang</button>
             </div>
             <div class="product-card">
-                <h3>Pasir Bangunan</h3>
-                <p>Pasir halus dan kasar untuk berbagai keperluan konstruksi.</p>
-                <a href="#" class="btn">Beli Sekarang</a>
+                <img src="Gambar/TRIPLEK.png" alt="Triplek">
+                <h3>Triplek</h3>
+                <p>Material serbaguna dengan daya tahan tinggi, cocok untuk konstruksi dan perabotan.</p>
+                <button class="btn" onclick="showPopup('https://id.shp.ee/ZY6miv4')">Beli Sekarang</button>
             </div>
         </div>
+    </div>
+
+    <div class="popup" id="popup">
+        <p>Pilih Metode Pembayaran:</p>
+        <button onclick="window.location.href='https://wa.me/+6281370095888'">WhatsApp</button>
+        <button id="shopee-link">Shopee</button>
+        <button onclick="hidePopup()">Tutup</button>
     </div>
 
     <footer>
         &copy; 2024 MMGroup - Semua Hak Dilindungi
     </footer>
+
+    <script>
+        function showPopup(shopeeLink) {
+            document.getElementById("popup").classList.add("show");
+            document.getElementById("shopee-link").onclick = function() {
+                window.location.href = shopeeLink;
+            };
+        }
+        function hidePopup() {
+            document.getElementById("popup").classList.remove("show");
+        }
+    </script>
 
 </body>
 </html>
