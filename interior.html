@@ -73,18 +73,16 @@
 
     <footer>&copy; 2024 MMGroup - Semua Hak Dilindungi</footer>
 
-    <!-- Popup Pilih Gaya -->
     <div id="popup" class="popup">
         <h2 id="popupTitle">Pilih Gaya</h2>
-        <button class="btn" onclick="showStyle('Modern')">Modern</button>
-        <button class="btn" onclick="showStyle('Classic')">Classic</button>
-        <button class="btn" onclick="showStyle('Minimalist')">Minimalist</button>
+        <button class="btn" onclick="showStyle('Classic Modern')">Classic Modern</button>
+        <button class="btn" onclick="showStyle('Minimalist Modern')">Minimalist Modern</button>
+        <button class="btn" onclick="showStyle('Custom Sesuai Designer')">Custom Sesuai Designer</button>
         <p id="styleDesc"></p>
         <button class="btn-close" onclick="closePopup()">Tutup</button>
         <button class="btn-next" id="btnNext" onclick="openConsultPopup()">Lanjutkan</button>
     </div>
 
-    <!-- Popup Konsultasi -->
     <div id="consultPopup" class="popup">
         <h2>Lanjutkan Konsultasi Via?</h2>
         <button class="btn" onclick="consult('whatsapp')">WhatsApp</button>
@@ -97,7 +95,7 @@
             document.getElementById("popupTitle").innerText = "Pilih Gaya untuk " + roomType;
             document.getElementById("popup").style.display = "block";
             document.getElementById("styleDesc").innerHTML = "";
-            document.getElementById("btnNext").style.display = "none"; // Sembunyikan tombol Lanjutkan
+            document.getElementById("btnNext").style.display = "none";
         }
 
         function closePopup() {
@@ -115,7 +113,7 @@
                 desc = "Gaya minimalis menampilkan ruang bersih, warna monokrom, dan pencahayaan alami.";
             }
             document.getElementById("styleDesc").innerHTML = desc;
-            document.getElementById("btnNext").style.display = "inline-block"; // Munculkan tombol Lanjutkan
+            document.getElementById("btnNext").style.display = "inline-block";
         }
 
         function openConsultPopup() {
@@ -125,7 +123,7 @@
 
         function consult(platform) {
             if (platform === "whatsapp") {
-                window.location.href = "https://wa.me/6281370095888";
+                window.location.href = "https://wa.me/6281234567890";
             } else if (platform === "instagram") {
                 window.location.href = "https://www.instagram.com/mmgroupiid";
             }
