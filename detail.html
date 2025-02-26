@@ -12,20 +12,73 @@
             background-color: #1a1a1a;
             color: white;
             text-align: center;
-            position: relative;
         }
         .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background: #2c3e50;
-            color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background: #2c3e50;
+    color: white;
+    position: relative;
+}
+
+.logo {
+    position: absolute;
+    left: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.filter-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#searchBar {
+    width: 300px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+#yearFilter, #styleFilter {
+    padding: 8px;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Responsive untuk layar kecil */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .logo {
+        position: static;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .filter-container {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    #searchBar {
+        width: 100%;
+    }
+
         }
-        .navbar .logo {
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-left: 15px;
+        .filter-container {
+            display: flex;
+            gap: 10px;
         }
         .container {
             padding: 50px 20px;
@@ -44,52 +97,27 @@
             width: 300px;
             text-align: left;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
             cursor: pointer;
-        }
-        .project-box img {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            transition: transform 0.3s ease;
         }
         .project-box:hover {
             transform: scale(1.05);
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
         }
-        .golden-glow {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .project-image {
             width: 100%;
-            height: 100%;
+            height: auto;
             border-radius: 10px;
-            z-index: -1;
-            pointer-events: none;
-            animation: flicker 1.5s infinite alternate;
+            cursor: pointer;
         }
-        @keyframes flicker {
-            0% { box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5); }
-            100% { box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.9); }
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background: #2c3e50;
-            color: white;
-        }
-
-        /* Modal untuk zoom gambar */
+        /* Modal Overlay */
         .modal {
             display: none;
             position: fixed;
-            z-index: 10;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.8);
             justify-content: center;
             align-items: center;
         }
@@ -98,107 +126,125 @@
             max-height: 90%;
             border-radius: 10px;
         }
-        .close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 30px;
-            color: white;
-            cursor: pointer;
+        .modal.show {
+            display: flex;
         }
     </style>
 </head>
 <body>
     <div class="navbar">
         <div class="logo">MM Group Internasional Interior Design</div>
+        <div class="filter-container">
+            <input type="text" id="searchBar" placeholder="Cari proyek..." onkeyup="displayProjects()">
+            <select id="yearFilter" onchange="displayProjects()">
+                <option value="all">Semua Tahun</option>
+            </select>
+            <select id="styleFilter" onchange="displayProjects()">
+                <option value="all">Semua Gaya</option>
+                <option value="Modern Minimalist">Modern Minimalist</option>
+                <option value="Classic Minimalist">Classic Minimalist</option>
+                <option value="Classic Modern">Classic Modern</option>
+            </select>
+        </div>
     </div>
     <div class="container">
         <h1>Detail Proyek Kami</h1>
-        <p>Berikut adalah beberapa proyek yang telah kami selesaikan sejak 2008.</p>
-        <div class="projects" id="project-list">
-            <!-- Proyek akan dimuat di sini -->
-        </div>
+        <div class="projects" id="project-list"></div>
     </div>
-    <footer>
-        &copy; 2024 MMGroup - Semua Hak Dilindungi
-    </footer>
 
-    <!-- Modal untuk zoom gambar -->
-    <div class="modal" id="imageModal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img id="modalImage" src="" alt="Zoomed Image">
+    <!-- Modal untuk gambar -->
+    <div class="modal" id="imageModal" onclick="closeModal()">
+        <img id="modalImage" src="" alt="Project Image">
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const projects = [
-                { name: "Project Jln. Angsa", year: 2016, description: "Desain dan konstruksi perkantoran modern.", image: "angsa.png" },
-                { name: "Project Katamso", year: 2014, description: "Interior elegan dan berkualitas tinggi.", image: "Katamso.png" },
-                { name: "Project Malibu", year: 2014, description: "Konsep futuristik untuk pusat perbelanjaan.", image: "malibu.png" },
-                { name: "Project Grand Katamso", year: 2018, description: "Desain eksklusif untuk pengalaman bersantap.", image: "grandkatamso.png" },
-                { name: "Project Johor City", year: 2018, description: "Konsep minimalis dengan material terbaik.", image: "Jcity.png" },
-                { name: "Project Jln. Jambi", year: 2018, description: "Konsep minimalis dengan material terbaik.", image: "jambi.png" },
-                { name: "Project Jln. Bangka", year: 2017, description: "Konsep minimalis dengan material terbaik.", image: "bangka.png" },
-                { name: "Project Jln. Palembang", year: 2019, description: "Konsep minimalis dengan material terbaik.", image: "palembang.png" },
-                { name: "Project Graha Helvetia", year: 2018, description: "Konsep minimalis dengan material terbaik.", image: "grahahel.png" },
-                { name: "Project Cemara Jln. Tulip", year: 2013, description: "Konsep minimalis dengan material terbaik.", image: "tulip.png" },
-                { name: "Project Palace Residence", year: 2012, description: "Konsep minimalis dengan material terbaik.", image: "palacere.png" },
-                { name: "Project Mutiara Residence Block. D", year: 2012, description: "Konsep minimalis dengan material terbaik.", image: "mutiD.png" },
-                { name: "Project Jln. Lembu", year: 2019, description: "Konsep minimalis dengan material terbaik.", image: "lembu.png" },
-                { name: "Project Grand Polonia 3D", year: 2023, description: "Konsep minimalis dengan material terbaik.", image: "GrandPolonia3.png" },
-                { name: "Project Cemara Hijau", year: 2023, description: "Konsep minimalis dengan material terbaik.", image: "cemarahijau.png" },
-                { name: "Project Podomoro Lexington", year: 2023, description: "Konsep minimalis dengan material terbaik.", image: "lexington.png" },
-                { name: "Project Cemara Jln. Camelia", year: 2012, description: "Konsep minimalis dengan material terbaik.", image: "camelia.png" },
-                { name: "Project Citraland Gama City", year: 2025, description: "Konsep minimalis dengan material terbaik.", image: "Gamacity.png" },
-                { name: "Project Graha Shopie", year: 2014, description: "Konsep minimalis dengan material terbaik.", image: "grahasho.png" },
-                { name: "Project Menara Mas", year: 2010, description: "Konsep minimalis dengan material terbaik.", image: "menara.png" },
-                { name: "Project Jln. Laboratorium", year: 2019, description: "Konsep minimalis dengan material terbaik.", image: "laboratorium.png" },
-                { name: "Project Office Jln. Sutomo", year: 2013, description: "Konsep minimalis dengan material terbaik.", image: "sutomo.png" },
-                { name: "Project Cemara Jln. Merbau", year: 2013, description: "Konsep minimalis dengan material terbaik.", image: "merbau2.png" },
-                { name: "Project Cemara Jln. Merbau", year: 2008, description: "Konsep minimalis dengan material terbaik.", image: "merbau.png" },
-                { name: "Project Grand Polonia 3C", year: 2022, description: "Konsep minimalis dengan material terbaik.", image: "GP3C.png" },
-                { name: "Project CBD Polonia Office", year: 2017, description: "Konsep minimalis dengan material terbaik.", image: "CBD.png" },
-                { name: "Project Mutiara Residence Block. C", year: 2018, description: "Konsep minimalis dengan material terbaik.", image: "mutiC.png" },
-                { name: "Project Jln. Glugur", year: 2016, description: "Konsep minimalis dengan material terbaik.", image: "glugur.png" },
-                { name: "Project Grand Polonia 1", year: 2012, description: "Konsep minimalis dengan material terbaik.", image: "GP1.png" },
-                { name: "Project Grand Palace", year: 2012, description: "Konsep minimalis dengan material terbaik.", image: "Grand Palace.png" },
-                { name: "Project Jln. Gatot Subroto", year: 2018, description: "Konsep minimalis dengan material terbaik.", image: "gatsu.png" },
-                { name: "Project Cemara Jln. Merpati", year: 2015, description: "Konsep minimalis dengan material terbaik.", image: "Merpati.png" },
-                { name: "Project Grand Polonia 3A", year: 2021, description: "Konsep minimalis dengan material terbaik.", image: "GP3A.png" },
-                { name: "Project Grand Polonia 3B", year: 2021, description: "Konsep minimalis dengan material terbaik.", image: "GP3B.png" },
-                { name: "Project Grand Polonia 1A", year: 2019, description: "Konsep minimalis dengan material terbaik.", image: "GP1A.png" },
-            ];
+        const projects = [
+                { name: "Project Jln. Angsa", year: 2016,gaya: "Modern Minimalist", description: "Desain dan konstruksi perkantoran modern.", image: "angsa.png" },
+                { name: "Project Katamso", year: 2014,gaya: "Classic Minimalist",description: "Interior elegan dan berkualitas tinggi.", image: "katamso.png" },
+                { name: "Project Malibu", year: 2014, gaya: "Classic Modern",description: "Konsep futuristik untuk pusat perbelanjaan.", image: "malibu.png" },
+                { name: "Project Grand Katamso", year: 2018,gaya: "Modern Minimalist", description: "Desain eksklusif untuk pengalaman bersantap.", image: "grandkatamso.png" },
+                { name: "Project Johor City", year: 2018, gaya: "Classic Modern", description: "Konsep minimalis dengan material terbaik.", image: "jcity.png" },
+                { name: "Project Jln. Jambi", year: 2018, gaya:"Modern Minimalist" , description: "Konsep minimalis dengan material terbaik.", image: "jambi.png" },
+                { name: "Project Jln. Bangka", year: 2017,gaya:"Classic Minimalist" , description: "Konsep minimalis dengan material terbaik.", image: "bangka.png" },
+                { name: "Project Jln. Palembang", year: 2019, gaya:"Modern Minimalist" ,description: "Konsep minimalis dengan material terbaik.", image: "palembang.png" },
+                { name: "Project Graha Helvetia", year: 2018, gaya:"Modern Minimalist" ,description: "Konsep minimalis dengan material terbaik.", image: "grahahel.png" },
+                { name: "Project Cemara Jln. Tulip", year: 2013,gaya:"Classic Modern" , description: "Konsep minimalis dengan material terbaik.", image: "tulip.png" },
+                { name: "Project Palace Residence", year: 2012,gaya: "Classic Modern" , description: "Konsep minimalis dengan material terbaik.", image: "palacere.png" },
+                { name: "Project Mutiara Residence Block. D", gaya:"Modern Minimalist" ,year: 2012, description: "Konsep minimalis dengan material terbaik.", image: "mutiD.png" },
+                { name: "Project Jln. Lembu", year: 2019, gaya:"Modern Minimalist" ,description: "Konsep minimalis dengan material terbaik.", image: "lembu.png" },
+                { name: "Project Grand Polonia 3D", year: 2023,gaya:"Modern Minimalist" , description: "Konsep minimalis dengan material terbaik.", image: "grandpolonia3.png" },
+                { name: "Project Cemara Hijau", year: 2023, gaya:"Classic Modern" ,description: "Konsep minimalis dengan material terbaik.", image: "cemarahijau.png" },
+                { name: "Project Podomoro Lexington",  year: 2023, gaya:"Modern Minimalist", description: "Konsep minimalis dengan material terbaik.", image: "lexington.png" },
+                { name: "Project Cemara Jln. Camelia", year: 2012, gaya:"Classic Modern", description: "Konsep minimalis dengan material terbaik.", image: "camelia.png" },
+                { name: "Project Citraland Gama City", year: 2025, gaya:"Modern Minimalist",description: "Konsep minimalis dengan material terbaik.", image: "gamacity.png" },
+                { name: "Project Graha Shopie", year: 2014, gaya:"Modern Minimalist",description: "Konsep minimalis dengan material terbaik.", image: "grahasho.png" },
+                { name: "Project Menara Mas", year: 2010, gaya:"Modern Minimalist", description: "Konsep minimalis dengan material terbaik.", image: "menara.png" },
+                { name: "Project Jln. Laboratorium", year: 2019, gaya:"Classic Modern", description: "Konsep minimalis dengan material terbaik.", image: "laboratorium.png" },
+                { name: "Project Office Jln. Sutomo", year: 2013, gaya:"Modern Minimalist", description: "Konsep minimalis dengan material terbaik.", image: "sutomo.png" },
+                { name: "Project Cemara Jln. Merbau", year: 2013, gaya:"Classic Minimalist", description: "Konsep minimalis dengan material terbaik.", image: "merbau2.png" },
+                { name: "Project Cemara Jln. Merbau", year: 2008, gaya:"Classic Modern", description: "Konsep minimalis dengan material terbaik.", image: "merbau.png" },
+                { name: "Project Grand Polonia 3C", year: 2022, gaya:"Modern Minimalist", description: "Konsep minimalis dengan material terbaik.", image: "GP3C.png" },
+                { name: "Project CBD Polonia Office", year: 2017, gaya:"Modern Minimalist", description: "Konsep minimalis dengan material terbaik.", image: "CBD.png" },
+                { name: "Project Mutiara Residence Block. C", year: 2018, gaya:"Classic Modern", description: "Konsep minimalis dengan material terbaik.", image: "mutiC.png" },
+                { name: "Project Jln. Glugur", year: 2016, gaya:"Modern Minimalist",description: "Konsep minimalis dengan material terbaik.", image: "glugur.png" },
+                { name: "Project Grand Polonia 1", year: 2012, gaya:"Classic Modern", description: "Konsep minimalis dengan material terbaik.", image: "GP1.png" },
+                { name: "Project Grand Palace", year: 2012,gaya:"Classic Modern",description: "Konsep minimalis dengan material terbaik.", image: "Grand Palace.png" },
+                { name: "Project Jln. Gatot Subroto", year: 2018, gaya:"Modern Minimalist",description: "Konsep minimalis dengan material terbaik.", image: "gatsu.png" },
+                { name: "Project Cemara Jln. Merpati", year: 2015,gaya:"Classic Minimalist", description: "Konsep minimalis dengan material terbaik.", image: "Merpati.png" },
+                { name: "Project Grand Polonia 3A", year: 2021, gaya:"Classic Modern",description: "Konsep minimalis dengan material terbaik.", image: "GP3A.png" },
+                { name: "Project Grand Polonia 3B", year: 2021, gaya:"Modern Minimalist",description: "Konsep minimalis dengan material terbaik.", image: "GP3B.png" },
+                { name: "Project Grand Polonia 1A", year: 2019, gaya:"Modern Minimalist",description: "Konsep minimalis dengan material terbaik.", image: "GP1A.png" }
+    ];
 
-              // **Sort projects berdasarkan tahun (descending)**
-        projects.sort((a, b) => b.year - a.year);
+        function populateYearFilter() {
+            const yearFilter = document.getElementById("yearFilter");
+            const years = [...new Set(projects.map(p => p.year))].sort((a, b) => b - a);
+            years.forEach(year => {
+                const option = document.createElement("option");
+                option.value = year;
+                option.textContent = year;
+                yearFilter.appendChild(option);
+            });
+        }
 
-const projectList = document.getElementById("project-list");
-projectList.innerHTML = ""; // Bersihkan sebelum ditambahkan ulang
+        function displayProjects() {
+            const projectList = document.getElementById("project-list");
+            const searchQuery = document.getElementById("searchBar").value.toLowerCase();
+            const yearFilter = document.getElementById("yearFilter").value;
+            const styleFilter = document.getElementById("styleFilter").value;
+            projectList.innerHTML = "";
+            projects
+                .filter(p => (styleFilter === "all" || p.gaya === styleFilter) &&
+                             (yearFilter === "all" || p.year == yearFilter) &&
+                             (searchQuery === "" || p.name.toLowerCase().includes(searchQuery)))
+                .forEach(p => {
+                    const div = document.createElement("div");
+                    div.classList.add("project-box");
+                    div.innerHTML = `
+                        <img src="${p.image}" 
+                        alt="${p.name}" 
+                        class="project-image"
+                        onclick="openModal('${p.image}')">
+                        <h3>${p.name}</h3>
+                        <p><strong>Tahun:</strong> ${p.year}</p>
+                        <p><strong>Gaya:</strong> ${p.gaya}</p>
+                        <p>${p.description}</p>
+                    `;
+                    projectList.appendChild(div);
+                });
+        }
 
-projects.forEach(project => {
-    const div = document.createElement("div");
-    div.classList.add("project-box");
-    div.innerHTML = `
-        <div class='golden-glow'></div>
-        <img src="${project.image}" alt="${project.name}" onclick="openModal('${project.image}')">
-        <h3>${project.name}</h3>
-        <p><strong>Tahun:</strong> ${project.year}</p>
-        <p>${project.description}</p>
-    `;
-    projectList.appendChild(div);
-});
-});
+        function openModal(imageSrc) {
+            document.getElementById("modalImage").src = imageSrc;
+            document.getElementById("imageModal").classList.add("show");
+        }
 
-// Fungsi untuk membuka modal gambar
-function openModal(imageSrc) {
-const modal = document.getElementById("imageModal");
-const modalImage = document.getElementById("modalImage");
-modalImage.src = imageSrc;
-modal.style.display = "flex";
-}
+        function closeModal() {
+            document.getElementById("imageModal").classList.remove("show");
+        }
 
-// Fungsi untuk menutup modal gambar
-function closeModal() {
-document.getElementById("imageModal").style.display = "none";
-}
-</script>
+        populateYearFilter();
+        displayProjects();
+    </script>
+</body>
+</html>
