@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jasa Interior - MMGroup</title>
     <style>
-        /* Global Styles */
-body {
+        body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
     color: #333;
 }
+
 
 .header {
     background: linear-gradient(135deg, #2c3e50, #34495e);
@@ -82,7 +82,7 @@ body {
 }
 
 .btn:hover {
-    background: #219150;
+    background: rgba(255, 215, 0, 0.8);
 }
 
 /* Popup Style */
@@ -92,13 +92,13 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.3);
+    background:wheat; /* Ubah transparansi menjadi warna solid */
     padding: 25px;
     border-radius: 10px;
     width: 350px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    color: white;
+    color: black; /* Ubah warna teks agar kontras dengan background putih */
 }
 
 .popup h2 {
@@ -167,6 +167,7 @@ footer {
     position: absolute;
     top: 0;
     bottom: 0;
+
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
 }
